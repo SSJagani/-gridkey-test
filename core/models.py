@@ -52,7 +52,7 @@ class DayHoldings(TimeStampedModel):
 
 
 def calculate_avg_buy_price(sender, instance, created, *arg, **kwargs):
-    transactions_qry = Transaction.objects.values('trade_type', 'quantity', 'price_per_share')
+    transactions_qry = Transaction.objects.order_by('date').values('trade_type', 'quantity', 'price_per_share')
     transactions_list = deepcopy(transactions_qry.filter(trade_type='BUY'))
     for transaction in transactions_qry:
         if transaction['trade_type'] == 'SELL':
